@@ -1,8 +1,8 @@
 'use strict';
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require("../../config/database");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-module.exports = sequelize.define('task', {
+const task = sequelize.define('task', {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -12,8 +12,15 @@ module.exports = sequelize.define('task', {
   title: {
     type: DataTypes.STRING
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   status: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    validate: {
+      isIn: [['Em andamento', 'Finalizado']]
+    }
   },
   priority: {
     type: DataTypes.INTEGER
@@ -34,3 +41,5 @@ module.exports = sequelize.define('task', {
     freezeTableName: true, 
     modelName: 'task',
 });
+
+module.exports = task;
